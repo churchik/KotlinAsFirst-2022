@@ -169,6 +169,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
     val endPoint = min(b,d)
     if (a in c..d) return endPoint - a
-    if (a > d || b < c) return -1
-    return endPoint - c
+    if (b in c..d || c in a..b) return endPoint - c
+    return -1
 }
