@@ -3,6 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson4.task1.abs
 import lesson5.task1.whoAreInBoth
 
 /**
@@ -22,7 +23,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
 fun isNumberHappy(number: Int): Boolean {
     val firstSum = (number / 1000) + (number / 100 % 10)
     val secondSum = (number / 10 % 10) + (number % 10)
-    return  firstSum == secondSum
+    return firstSum == secondSum
 }
 
 /**
@@ -32,11 +33,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (x1 == x2 || y1 == y2 || (x1 + y1 == x2 + y2)) return true
-    return false
-
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+    (x1 == x2 || y1 == y2 || (x1 + y1 == x2 + y2) || (kotlin.math.abs(x1-x2) == kotlin.math.abs(y1-y2)))
 
 
 /**
@@ -46,7 +44,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
-    if (year % 4 == 0){
+    if (year % 4 == 0) {
         if (year % 100 == 0 && year % 400 != 0) return 28
         if (month == 2) return 29
     }

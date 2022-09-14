@@ -77,7 +77,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int =
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-    ((sagenes * 3 * 16 * 4.445) + (arshins * 16 * 4.445) + (vershoks * 4.445))/100
+    (sagenes * 3 * 16 + arshins * 16 + vershoks) * 4.445 / 100
 
 /**
  * Тривиальная (1 балл)
@@ -86,7 +86,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(deg: Int, min: Int, sec: Int): Double =
-    seconds(deg, min, sec) * PI / (180*3600)
+    seconds(deg, min, sec) * PI / (180 * 3600)
 
 
 /**
@@ -96,7 +96,7 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double =
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
-    abs(sqrt(sqr(y2 -y1) + sqr(x2-x1)))
+    abs(sqrt(sqr(y2 - y1) + sqr(x2 - x1)))
 
 
 /**
@@ -128,11 +128,12 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val firstYear: Double = initial.toDouble() + (initial.toDouble() / 100 * percent)
-    val secondYear: Double = firstYear + (firstYear / 100 * percent)
-    val thirdYear: Double = secondYear + (secondYear / 100 * percent)
+    val firstYear = initial.toDouble() + (initial.toDouble() / 100 * percent)
+    val secondYear = firstYear + (firstYear / 100 * percent)
+    val thirdYear = secondYear + (secondYear / 100 * percent)
     return thirdYear
 }
+
 /**
  * Простая (2 балла)
  *
@@ -142,7 +143,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
 fun numberRevert(number: Int): Int {
     val firstNumber = number % 10
     val secondNumber = number / 10 % 10
-    val thirdNumber = number /100 % 10
+    val thirdNumber = number / 100 % 10
     return (firstNumber.toString() + secondNumber.toString() + thirdNumber.toString()).toInt()
 }
 
