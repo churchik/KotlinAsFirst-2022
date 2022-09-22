@@ -5,6 +5,7 @@ package lesson2.task2
 import lesson1.task1.sqr
 import lesson4.task1.abs
 import lesson5.task1.whoAreInBoth
+import kotlin.math.abs
 
 /**
  * Пример
@@ -34,7 +35,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-    (x1 == x2 || y1 == y2 || (x1 + y1 == x2 + y2) || (kotlin.math.abs(x1 - x2) == kotlin.math.abs(y1 - y2)))
+    (x1 == x2 || y1 == y2 || (x1 + y1 == x2 + y2) || (abs(x1 - x2) == abs(y1 - y2)))
 
 
 /**
@@ -76,4 +77,7 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val holeSize = r * s
+    return (a * b <= holeSize) || (a * c <= holeSize) || (b * c <= holeSize)
+}
