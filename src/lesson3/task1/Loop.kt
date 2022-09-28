@@ -5,7 +5,9 @@ package lesson3.task1
 import lesson5.task1.containsIn
 import lesson7.task1.markdownToHtmlLists
 import ru.spbstu.wheels.repeatB
+import kotlin.math.abs
 import kotlin.math.min
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -82,7 +84,7 @@ fun digitNumber(n: Int): Int {
     do {
         number /= 10
         count++
-    } while (number > 0)
+    } while (abs(number) > 0)
     return count
 }
 
@@ -92,7 +94,19 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var second: Int
+    var count = 1
+    var num = 1
+    var first = 1
+    while (count < n) {
+        second = first
+        first += num
+        num = second
+        count++
+    }
+    return num
+}
 
 /**
  * Простая (2 балла)
@@ -266,4 +280,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    val num = n
+    var ind = 1
+    var count = 0
+    while (count < num) {
+        val dn = digitNumber(fib(ind))
+        count += dn
+        ind++
+    }
+    val answ = (fib(ind -1)/(10.0).pow(count-num)%10).toInt()
+    return answ
+}
