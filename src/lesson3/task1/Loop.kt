@@ -229,11 +229,9 @@ fun hasDifferentDigits(n: Int): Boolean {
     var num = n / 10
     val lastNum = n % 10
     if (n % 10 == n) return false
-    else {
-        while (num > 0) {
-            if (num % 10 != lastNum) return true
-            num /= 10
-        }
+    while (num > 0) {
+        if (num % 10 != lastNum) return true
+        num /= 10
     }
     return false
 }
