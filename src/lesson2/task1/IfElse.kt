@@ -87,8 +87,16 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
-
+): Double {
+    var halfWayLength = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val firstPath = t1 * v1
+    val secondPath = t2 * v2
+    if (halfWayLength - firstPath <= 0) return (halfWayLength / v1)
+    halfWayLength -= firstPath
+    if (halfWayLength - secondPath <= 0) return (t1 + halfWayLength / v2)
+    halfWayLength -= secondPath
+    return (t1 + t2 + halfWayLength / v3)
+}
 /**
  * Простая (2 балла)
  *
@@ -108,7 +116,6 @@ fun whichRookThreatens(
     else if (kingX == rookX2 || kingY == rookY2) 2
     else 0
 }
-
 /**
  * Простая (2 балла)
  *
@@ -123,13 +130,12 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int =
-    when {
-        (kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 3
-        kingX == rookX || kingY == rookY -> 1
-        abs(kingX - bishopX) == abs(kingY - bishopY) -> 2
-        else -> 0
-    }
+): Int {
+    return if ((kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY))) 3
+    else if (kingX == rookX || kingY == rookY) 1
+    else if (abs(kingX - bishopX) == abs(kingY - bishopY)) 2
+    else 0
+}
 
 /**
  * Простая (2 балла)
@@ -144,9 +150,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val shortestSide = minOf(a, b, c)
     val middleSide = (a + b + c) - (longestSide + shortestSide)
     if (a + b > c && a + c > b && b + c > a) {
-        if (sqr(longestSide) == (sqr(shortestSide) + sqr(middleSide))) return 1
-        if (sqr(longestSide) > (sqr(shortestSide) + sqr(middleSide))) return 2
-        if (sqr(longestSide) < (sqr(shortestSide) + sqr(middleSide))) return 0
+        return if (sqr(longestSide) == (sqr(shortestSide) + sqr(middleSide))) 1
+        else if (sqr(longestSide) > (sqr(shortestSide) + sqr(middleSide))) 2
+        else 0
     }
     return -1
 }
