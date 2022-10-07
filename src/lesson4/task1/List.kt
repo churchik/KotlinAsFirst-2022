@@ -318,9 +318,9 @@ fun roman(n: Int): String {
     var answ = ""
     while (num > 0) {
         if (num >= lista[counter]) {
-            answ +=(listr[counter])
-            num -= lista[counter] }
-        else counter++
+            answ += (listr[counter])
+            num -= lista[counter]
+        } else counter++
     }
     return answ
 }
