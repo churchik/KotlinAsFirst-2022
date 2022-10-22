@@ -110,12 +110,11 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int {
-    return if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) 3
-    else if (kingX == rookX1 || kingY == rookY1) 1
-    else if (kingX == rookX2 || kingY == rookY2) 2
-    else 0
-}
+): Int = if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) 3
+else if (kingX == rookX1 || kingY == rookY1) 1
+else if (kingX == rookX2 || kingY == rookY2) 2
+else 0
+
 /**
  * Простая (2 балла)
  *
@@ -130,12 +129,10 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int {
-    return if ((kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY))) 3
-    else if (kingX == rookX || kingY == rookY) 1
-    else if (abs(kingX - bishopX) == abs(kingY - bishopY)) 2
-    else 0
-}
+): Int = if ((kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY))) 3
+else if (kingX == rookX || kingY == rookY) 1
+else if (abs(kingX - bishopX) == abs(kingY - bishopY)) 2
+else 0
 
 /**
  * Простая (2 балла)
@@ -149,12 +146,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val longestSide = maxOf(a, b, c)
     val shortestSide = minOf(a, b, c)
     val middleSide = (a + b + c) - (longestSide + shortestSide)
-    if (a + b > c && a + c > b && b + c > a) {
-        return if (sqr(longestSide) == (sqr(shortestSide) + sqr(middleSide))) 1
-        else if (sqr(longestSide) > (sqr(shortestSide) + sqr(middleSide))) 2
-        else 0
-    }
-    return -1
+    val isit = (a + b > c && a + c > b && b + c > a)
+    return if ((sqr(longestSide) == (sqr(shortestSide) + sqr(middleSide))) && isit) 1
+    else if ((sqr(longestSide) > (sqr(shortestSide) + sqr(middleSide))) && isit) 2
+    else if ((sqr(longestSide) < (sqr(shortestSide) + sqr(middleSide))) && isit) 0
+    else -1
 }
 
 /**

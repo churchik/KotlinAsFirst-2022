@@ -4,6 +4,8 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
+import ru.spbstu.wheels.stack
+import java.lang.StringBuilder
 import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -136,16 +138,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    var answ = 0.0
-    var count = 0.0
-    if (list.isEmpty()) return 0.0
-    for (i in list) {
-        answ += i
-        count++
-    }
-    return answ / count
-}
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
 
 /**
  * Средняя (3 балла)
@@ -269,14 +262,13 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-    var answ = ""
     val list = convert(n, base)
-    val letters = "          abcdefghijklmnopqrstuvwxyz"
-    for (i in list) {
-        if (i <= 9) answ += i.toString()
-        else answ += letters[i]
+    return buildString {
+        for (i in list) {
+            if (i <= 9) append(i.toString())
+            else append('a' + (i - 10))
+        }
     }
-    return answ
 }
 
 /**
@@ -318,7 +310,7 @@ fun roman(n: Int): String {
     var answ = ""
     while (num > 0) {
         if (num >= lista[counter]) {
-            answ += (listr[counter])
+            answ += listr[counter]
             num -= lista[counter]
         } else counter++
     }
