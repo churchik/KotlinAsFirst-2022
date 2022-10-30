@@ -113,7 +113,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for ((akey, avalue) in a) {
         for ((bkey, bvalue) in b) {
-            if (akey in bkey && (avalue == bvalue)) return true
+            if (akey in bkey && avalue == bvalue || a.isEmpty() && b.isEmpty()) return true
         }
     }
     return false
@@ -150,7 +150,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMa
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
     val list = mutableListOf<String>()
     for (aname in a) {
-        if (aname in b) list.add(aname)
+        if ((aname in b) && aname !in list) list.add(aname)
     }
     return list
 }
@@ -220,11 +220,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    if (chars.isEmpty()) return false
-    for (i in chars){
-        if (i !in word) return false
-    }
-    return true
+    val letters = word.toSet().toList().sorted()
+    val sort = chars.sorted()
+    return sort == letters
 }
 
 /**
@@ -239,19 +237,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
-    for (i in list.indices) {
-        for (j in i + 1 until list.size) {
-            if (!map.containsKey(list[i])) {
-                var counter = 1
-                if (list[j] == list[i]) counter++
-                if (counter > 1) map[list[i]] = counter
-            }
-        }
-    }
-    return map
-}
+fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
 
 /**
  * Средняя (3 балла)
