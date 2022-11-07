@@ -3,6 +3,8 @@
 package lesson5.task1
 
 import lesson2.task1.triangleKind
+import ru.spbstu.wheels.sorted
+import java.util.InputMismatchException
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -205,7 +207,21 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var answ: String? = null
+    val list = mutableListOf<String>()
+    var mincost = Double.MAX_VALUE
+    for ((name, type) in stuff) {
+        list += type.first
+        if (type.first == kind) {
+            if (type.second <= mincost) {
+                answ = name
+                mincost = type.second
+            }
+        }
+    }
+    return answ
+}
 
 /**
  * Средняя (3 балла)
@@ -216,12 +232,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    if (word.isEmpty()) return true
-    val letters = word.toSet().toList().sorted()
-    val sort = chars.sorted()
-    return sort == letters
-}
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+
 
 /**
  * Средняя (4 балла)
@@ -304,7 +316,21 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val newList = list.associateBy({ it }, { list.indexOf(it) })
+    if (number == 0) {
+        if (list.count { it == 0 } > 1) {
+            val intFirst = list.indexOfFirst { it == 0 }
+            val intLast = list.indexOfLast { it == 0 }
+            return Pair(intFirst, intLast)
+        }
+    }
+    for ((key,value) in newList){
+        if (number - key in newList && newList[number - key] != value)
+            return Pair(newList[number - key]!!, value).sorted()
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная (8 баллов)
