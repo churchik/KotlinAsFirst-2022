@@ -116,7 +116,37 @@ fun dateStrToDigit(str: String): String {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String{
+    if (!digital.matches("""\d+\.\d+\.\d+""".toRegex())) return ""
+    val strNew = digital.split(".")
+    val mapMonths = mapOf(
+        "01" to "января",
+        "02" to "февраля",
+        "03" to "марта",
+        "04" to "апреля",
+        "05" to "мая",
+        "06" to "июня",
+        "07" to "июля",
+        "08" to "августа",
+        "09" to "сентября",
+        "10" to "октября",
+        "11" to "ноября",
+        "12" to "декабря"
+    )
+    val day = strNew[0].toInt()
+    val monthNumbers = strNew[1]
+    val year = strNew[2].toInt()
+    val monthLetters = mapMonths[monthNumbers]
+    val smallMonths = listOf("04", "06", "09", "11", "02")
+    when {
+        strNew.size != 3 || day > 31 || monthNumbers !in mapMonths || year < 0 -> return ""
+        monthNumbers in smallMonths && day > 30 -> return ""
+        monthNumbers == "02" && day > 28 && year % 4 != 0 && (year % 400 != 0 || year % 100 == 0) -> return ""
+        monthNumbers == "02" && day > 28 && year % 100 == 0 && year % 400 != 0 && year != 100 -> return ""
+        monthNumbers == "02" && day > 28 && year == 100 || monthNumbers == "02" && day > 29 -> return ""
+    }
+    return String.format("%d %s %d", day, monthLetters, year)
+}
 
 /**
  * Средняя (4 балла)
