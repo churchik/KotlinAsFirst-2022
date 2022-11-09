@@ -75,7 +75,7 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    if (!str.matches("""\d+\s[а-я]+\s(\d)+""".toRegex())) return ""
+    if (!str.matches("""\d+\s[а-я]+\s\d+""".toRegex())) return ""
     val strNew = str.split(" ")
     val mapMonths = mapOf(
         "января" to "01",
@@ -95,7 +95,7 @@ fun dateStrToDigit(str: String): String {
     val monthLetters = strNew[1]
     val year = strNew[2].toInt()
     val monthNumbers = mapMonths[monthLetters]?.toInt()
-    val smallMonths = listOf("апреля", "июня", "сенятбря", "ноября", "февраля")
+    val smallMonths = listOf("апреля", "июня", "сентября", "ноября", "февраля")
     when {
         strNew.size != 3 || day > 31 || monthLetters !in mapMonths || year < 0 -> return ""
         monthLetters in smallMonths && day > 30 -> return ""
