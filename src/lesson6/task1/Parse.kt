@@ -116,7 +116,7 @@ fun dateStrToDigit(str: String): String {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String{
+fun dateDigitToStr(digital: String): String {
     if (!digital.matches("""\d+\.\d+\.\d+""".toRegex())) return ""
     val strNew = digital.split(".")
     val mapMonths = mapOf(
@@ -187,12 +187,12 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int{
+fun bestHighJump(jumps: String): Int {
     if (!jumps.matches("""(\d+\s[+\-%]+\s?)*""".toRegex())) return -1
     val strNew = jumps.split(" ")
     var counter = 0
-    for (i in strNew.indices step 2){
-        if (strNew[i + 1].contains('+')){
+    for (i in strNew.indices step 2) {
+        if (strNew[i + 1].contains('+')) {
             if (strNew[i].toIntOrNull() != null && counter < strNew[i].toInt()) counter = strNew[i].toInt()
         }
     }
@@ -232,7 +232,19 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return ""
+    val str = description.replace(";", "").split(" ")
+    var counter = 0.0
+    var name = ""
+    for (i in str.indices step 2) {
+        if (str[i + 1].toDouble() >= counter) {
+            counter = str[i + 1].toDouble()
+            name = str[i]
+        }
+    }
+    return name
+}
 
 /**
  * Сложная (6 баллов)
