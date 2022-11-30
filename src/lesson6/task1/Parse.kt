@@ -129,10 +129,10 @@ fun dateDigitToStr(digital: String): String {
     )
     if (strNew.size != 3 || !mapMonths.contains(strNew[1])) return ""
     val day = strNew[0].toInt()
-    val month = mapMonths[strNew[1]]!!
+    val monthNumbers = mapMonths[strNew[1]]!!
     val year = strNew[2].toInt()
     if (day > daysInMonth(strNew[1].toInt(), year)) return ""
-    return String.format("%d %s %d", day, month, year)
+    return String.format("%d %s %d", day, monthNumbers, year)
 }
 
 /**
