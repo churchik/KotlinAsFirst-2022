@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+import java.lang.NullPointerException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -75,34 +78,26 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    if (!str.matches("""\d+\s[а-я]+\s\d+""".toRegex())) return ""
     val strNew = str.split(" ")
     val mapMonths = mapOf(
-        "января" to "01",
-        "февраля" to "02",
-        "марта" to "03",
-        "апреля" to "04",
-        "мая" to "05",
-        "июня" to "06",
-        "июля" to "07",
-        "августа" to "08",
-        "сентября" to "09",
+        "января" to "1",
+        "февраля" to "2",
+        "марта" to "3",
+        "апреля" to "4",
+        "мая" to "5",
+        "июня" to "6",
+        "июля" to "7",
+        "августа" to "8",
+        "сентября" to "9",
         "октября" to "10",
         "ноября" to "11",
         "декабря" to "12"
     )
+    if ((strNew.size < 3) || (!mapMonths.contains(strNew[1]))) return ""
     val day = strNew[0].toInt()
-    val monthLetters = strNew[1]
     val year = strNew[2].toInt()
-    val monthNumbers = mapMonths[monthLetters]?.toInt()
-    val smallMonths = listOf("апреля", "июня", "сентября", "ноября", "февраля")
-    when {
-        strNew.size != 3 || day > 31 || monthLetters !in mapMonths || year < 0 -> return ""
-        monthLetters in smallMonths && day > 30 -> return ""
-        monthLetters == "февраля" && day > 28 && year % 4 != 0 && (year % 400 != 0 || year % 100 == 0) -> return ""
-        monthLetters == "февраля" && day > 28 && year % 100 == 0 && year % 400 != 0 && year != 100 -> return ""
-        monthLetters == "февраля" && day > 28 && year == 100 || monthLetters == "февраля" && day > 29 -> return ""
-    }
+    val monthNumbers = mapMonths[strNew[1]]!!.toInt()
+    if (day > daysInMonth(monthNumbers, year)) return ""
     return String.format("%02d.%02d.%d", day, monthNumbers, year)
 }
 
@@ -117,7 +112,6 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    if (!digital.matches("""\d+\.\d+\.\d+""".toRegex())) return ""
     val strNew = digital.split(".")
     val mapMonths = mapOf(
         "01" to "января",
@@ -133,19 +127,12 @@ fun dateDigitToStr(digital: String): String {
         "11" to "ноября",
         "12" to "декабря"
     )
+    if (strNew.size != 3 || !mapMonths.contains(strNew[1])) return ""
     val day = strNew[0].toInt()
-    val monthNumbers = strNew[1]
+    val month = mapMonths[strNew[1]]!!
     val year = strNew[2].toInt()
-    val monthLetters = mapMonths[monthNumbers]
-    val smallMonths = listOf("04", "06", "09", "11", "02")
-    when {
-        strNew.size != 3 || day > 31 || monthNumbers !in mapMonths || year < 0 -> return ""
-        monthNumbers in smallMonths && day > 30 -> return ""
-        monthNumbers == "02" && day > 28 && year % 4 != 0 && (year % 400 != 0 || year % 100 == 0) -> return ""
-        monthNumbers == "02" && day > 28 && year % 100 == 0 && year % 400 != 0 && year != 100 -> return ""
-        monthNumbers == "02" && day > 28 && year == 100 || monthNumbers == "02" && day > 29 -> return ""
-    }
-    return String.format("%d %s %d", day, monthLetters, year)
+    if (day > daysInMonth(strNew[1].toInt(), year)) return ""
+    return String.format("%d %s %d", day, month, year)
 }
 
 /**
@@ -188,12 +175,13 @@ fun bestLongJump(jumps: String): Int = TODO()
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (!jumps.matches("""(\d+\s[+\-%]+\s?)*""".toRegex())) return -1
+    if (!jumps.matches("""(\d+ [+%-]+\s?)+""".toRegex())) return -1
     val strNew = jumps.split(" ")
     var counter = 0
     for (i in strNew.indices step 2) {
         if (strNew[i + 1].contains('+')) {
-            if (strNew[i].toIntOrNull() != null && counter < strNew[i].toInt()) counter = strNew[i].toInt()
+            val strInt = strNew[i].toIntOrNull()
+            if (strInt != null && counter < strInt) counter = strInt
         }
     }
     return counter
@@ -238,7 +226,8 @@ fun mostExpensive(description: String): String {
     var counter = 0.0
     var name = ""
     for (i in str.indices step 2) {
-        if (str[i + 1].toDouble() >= counter) {
+        if (str[i + 1].toDouble() <= 0.0) return ""
+        if (str[i + 1].toDoubleOrNull() != null && str[i + 1].toDouble() >= counter) {
             counter = str[i + 1].toDouble()
             name = str[i]
         }
