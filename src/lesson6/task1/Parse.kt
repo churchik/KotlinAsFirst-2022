@@ -226,8 +226,8 @@ fun mostExpensive(description: String): String {
     var counter = 0.0
     var name = ""
     for (i in str.indices step 2) {
-        if (str[i + 1].toDouble() < 0) return ""
-        if (str[i + 1].toDoubleOrNull() != null && str[i + 1].toDouble() >= counter) {
+        if (str[i + 1].toDoubleOrNull() == null || str[i + 1].toDouble() < 0) return ""
+        if (str[i + 1].toDouble() >= counter) {
             counter = str[i + 1].toDouble()
             name = str[i]
         }
