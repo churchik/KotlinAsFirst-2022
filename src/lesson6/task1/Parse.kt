@@ -3,7 +3,10 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
+import java.lang.IndexOutOfBoundsException
 import java.lang.NullPointerException
+import java.util.Collections
+import java.util.InputMismatchException
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -175,7 +178,7 @@ fun bestLongJump(jumps: String): Int = TODO()
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (!jumps.matches("""(\d+ [+%-]+\s?)+""".toRegex())) return -1
+    if (!jumps.matches("""\d+\s[+%-]+(\s\d+\s[+%-]+)*""".toRegex())) return -1
     val strNew = jumps.split(" ")
     var counter = 0
     for (i in strNew.indices step 2) {
