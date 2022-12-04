@@ -150,4 +150,23 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
     }
+//    @Test
+//    fun pet() {
+//        assertEquals(
+//            listOf("SuperCats"),
+//            pet(
+//                listOf<String>(
+//                    "SuperCats: кот - 1000; пиг - 1000000;",
+//                    "FastAndCheap: кот - 25000; собака - 30000; шиншила - 5000;"
+//                ), listOf<String>("кот"), 2000
+//            )
+//        )
+//        assertThrows(IllegalArgumentException::class.java) {
+//            pet(
+//                listOf("SuperCats: кот"),
+//                listOf<String>("кот", "собака"),
+//                1000000
+//            )
+//        }
+//    }
 }
