@@ -171,6 +171,25 @@ fun centerFile(inputName: String, outputName: String) {
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
     TODO()
+//    val input = File(inputName).readLines()
+//    val output = File(outputName).bufferedWriter()
+//    if (input.isEmpty()) output.write("")
+//    val max = input.maxOfOrNull { it.trim().length }
+//    for (line in File(inputName).readLines()) {
+//        val trimLine = line.trim()
+//        if (trimLine.matches("""\S+""".toRegex())) {
+//            output.write(trimLine)
+//            output.newLine()
+//        }
+//        if (trimLine.matches("""\s*""".toRegex())){
+//            output.write(trimLine)
+//            output.newLine()
+//       }
+//       if (line.isNotEmpty()){
+//            val splitLineToWords = line.split("""\s+""".toRegex())
+//
+//        }
+//    }
 }
 
 /**
