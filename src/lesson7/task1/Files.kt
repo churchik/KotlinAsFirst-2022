@@ -132,7 +132,7 @@ fun centerFile(inputName: String, outputName: String) {
             output.write(it.trim())
             output.newLine()
         }
-    }
+    } else output.write("")
     output.close()
 }
 
