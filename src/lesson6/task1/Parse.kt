@@ -82,6 +82,7 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
+    if (!str.matches("""\d+ [а-я]+ \d+""".toRegex())) return ""
     val strNew = str.split(" ")
     val mapMonths = mapOf(
         "января" to "1",
@@ -97,7 +98,7 @@ fun dateStrToDigit(str: String): String {
         "ноября" to "11",
         "декабря" to "12"
     )
-    if ((strNew.size < 3) || (!mapMonths.contains(strNew[1]))) return ""
+    if (!mapMonths.contains(strNew[1])) return ""
     val day = strNew[0].toInt()
     val year = strNew[2].toInt()
     val monthNumbers = mapMonths[strNew[1]]!!.toInt()
@@ -116,6 +117,7 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
+    if (!digital.matches("""\d+\.\d+\.\d+""".toRegex())) return ""
     val strNew = digital.split(".")
     val mapMonths = mapOf(
         "01" to "января",
@@ -131,7 +133,7 @@ fun dateDigitToStr(digital: String): String {
         "11" to "ноября",
         "12" to "декабря"
     )
-    if (strNew.size != 3 || !mapMonths.contains(strNew[1])) return ""
+    if (!mapMonths.contains(strNew[1])) return ""
     val day = strNew[0].toInt()
     val monthNumbers = mapMonths[strNew[1]]!!
     val year = strNew[2].toInt()
@@ -230,9 +232,10 @@ fun mostExpensive(description: String): String {
     var counter = 0.0
     var name = ""
     for (i in str.indices step 2) {
-        if (str[i + 1].toDoubleOrNull() == null || str[i + 1].toDouble() < 0) return ""
+        val cost = str[i + 1].toDoubleOrNull()
+        if (cost == null || cost < 0) return ""
         if (str[i + 1].toDouble() >= counter) {
-            counter = str[i + 1].toDouble()
+            counter = cost
             name = str[i]
         }
     }

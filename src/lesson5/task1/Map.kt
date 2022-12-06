@@ -146,13 +146,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMa
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val list = mutableListOf<String>()
-    for (aname in a) {
-        if ((b.contains(aname)) && !list.contains(aname)) list.add(aname)
-    }
-    return list
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().intersect(b.toSet()).toList()
 
 /**
  * Средняя (3 балла)
@@ -317,8 +311,10 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int>{
     val newList = list.withIndex()
     val check = mutableMapOf<Int, Int>()
     for (i in list.indices) check[list[i]] = i
-    for ((index, num) in newList)
-        if (index != check[number - num] && check.contains(number - num)) return Pair(check[number - num]!!, index).sorted()
+    for ((index, num) in newList) {
+        val checking = check[number - num]
+        if (index != checking && checking != null) return Pair(checking, index).sorted()
+    }
     return Pair(-1, -1)
 
 }

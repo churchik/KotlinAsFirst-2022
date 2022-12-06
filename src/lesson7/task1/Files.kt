@@ -63,11 +63,11 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    val out = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        if (line.isEmpty() || line.first() != '_') out.write(line + "\n")
+    File(outputName).bufferedWriter().use {
+        for (str in File(inputName).readLines()) {
+            if (str.isEmpty() || !str.startsWith('_')) it.write(str + "\n")
+        }
     }
-    out.close()
 }
 
 /**
@@ -84,7 +84,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val text = File(inputName).readText().lowercase()
     for (str in substrings) {
         val strLow = str.lowercase()
-        map[str] = text.windowed(strLow.length) { if (it == strLow) 1 else 0 }.sum()
+        map[str] = text.windowed(strLow.length) { if (it == strLow) 1 else 0 }.sum() //пока думаю
     }
     return map
 }
@@ -125,21 +125,16 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     val input = File(inputName).readLines()
-    val output = File(outputName).bufferedWriter()
-    val max = input.maxOfOrNull { it.trim().length }
-    if (input.isEmpty()) {
-        output.write("")
-        output.close()
-    } else {
-        input.forEach {
+    File(outputName).bufferedWriter().use {
+        val max = input.maxOfOrNull { it.trim().length }
+        for (line in File(inputName).readLines()) {
             if (max != null) {
-                output.write(" ".repeat((max - it.trim().length) / 2))
+                it.write(" ".repeat((max - line.trim().length) / 2))
             }
-            output.write(it.trim())
-            output.newLine()
+            it.write(line.trim())
+            it.newLine()
         }
     }
-    output.close()
 }
 
 /**
