@@ -292,24 +292,3 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
-
-//fun pet(movers: List<String>, pets: List<String>, limit: Int): List<String> {
-//    val list = mutableListOf<String>()
-//    for (str in movers) {
-//        var counter = 0
-//        if (!str.matches("""[A-z]+: [а-я]+ - \d+;\s?([а-я]+ - \d+;\s?)*""".toRegex())) throw IllegalArgumentException()
-//        val splitstr =
-//            str.replace("; ", "  ").replace(":", " ").replace("-", "").replace(";", "").split("  ").toMutableList()
-//        val name = splitstr[0]
-//        splitstr.remove(name)
-//        val list2 = mutableListOf<String>()
-//        for (i in splitstr.indices step 2) {
-//            val animal = splitstr[i]
-//            val cost = splitstr[i + 1].toInt()
-//            list2.add(animal)
-//            if (animal in pets) counter += cost
-//        }
-//        if (list2.containsAll(pets) && counter <= limit) list.add(name)
-//    }
-//    return list
-//}
