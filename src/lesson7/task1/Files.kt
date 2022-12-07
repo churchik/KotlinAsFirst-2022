@@ -186,7 +186,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             }
             val last = (max - trimLine.length) / (splitLineToWords.size - 1) + 1
             val check = (max - trimLine.length) % (splitLineToWords.size - 1)
-            val size = trimLine.length
+//            val size = trimLine.length
             if (trimLine.length == max) {
                 out.write(trimLine)
                 out.newLine()
