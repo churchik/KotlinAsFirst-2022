@@ -172,9 +172,9 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             return
         }
         val max = input.maxOf { it.trim().length }
-        for (line in input) {
+        for (line in input.map { it.replace(("""\s+""".toRegex()), " ") }) {
             val trimLine = line.trim()
-            val splitLineToWords = trimLine.split("""\s+""".toRegex()).toMutableList()
+            val splitLineToWords = ("""\s""".toRegex()).split(trimLine).toMutableList()
             if (trimLine.matches("""\S+""".toRegex())) {
                 out.write(trimLine)
                 out.newLine()
@@ -193,8 +193,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             }
             if (trimLine.isNotEmpty() && trimLine.length != max) {
                 for (i in 0 until splitLineToWords.size - 1) {
-                    if (i < check) splitLineToWords[i] += " ".repeat(last + 1)
-                    else splitLineToWords[i] += " ".repeat(last)
+                    splitLineToWords[i] += " ".repeat(if (i < check) last + 1 else last)
                 }
                 out.write(splitLineToWords.joinToString(""))
                 out.newLine()
@@ -202,6 +201,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         }
     }
 }
+
 
 /**
  * Средняя (14 баллов)
