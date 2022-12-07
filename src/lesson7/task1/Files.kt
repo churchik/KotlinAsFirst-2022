@@ -165,26 +165,34 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
-//    val input = File(inputName).readLines()
-//    val output = File(outputName).bufferedWriter()
-//    if (input.isEmpty()) output.write("")
-//    val max = input.maxOfOrNull { it.trim().length }
-//    for (line in File(inputName).readLines()) {
-//        val trimLine = line.trim()
-//        if (trimLine.matches("""\S+""".toRegex())) {
-//            output.write(trimLine)
-//            output.newLine()
-//        }
-//        if (trimLine.matches("""\s*""".toRegex())){
-//            output.write(trimLine)
-//            output.newLine()
-//       }
-//       if (line.isNotEmpty()){
-//            val splitLineToWords = line.split("""\s+""".toRegex())
-//
-//        }
-//    }
+    val input = File(inputName).readLines()
+    File(outputName).bufferedWriter().use { out ->
+        if (input.isEmpty()) out.write("")
+        val max = input.maxOf { it.trim().length }
+        for (line in input) {
+            val trimLine = line.trim()
+            val splitLineToWords = trimLine.split(" ").toMutableList()
+            if (trimLine.matches("""\S+""".toRegex())) {
+                out.write(trimLine)
+                out.newLine()
+                continue
+            }
+            if (trimLine.matches("""\s*""".toRegex())) {
+                out.newLine()
+                continue
+            }
+            if (trimLine.isNotEmpty()) {
+                val last = (max - trimLine.length) / (splitLineToWords.size - 1) + 1
+                val check = (max - trimLine.length) % (splitLineToWords.size - 1)
+                for (i in 0 until splitLineToWords.size - 1) {
+                    if (i < check) splitLineToWords[i] += " ".repeat(last + 1)
+                    else splitLineToWords[i] += " ".repeat(last)
+                }
+                out.write(splitLineToWords.joinToString(""))
+                out.newLine()
+            }
+        }
+    }
 }
 
 /**

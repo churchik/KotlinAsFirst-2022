@@ -234,7 +234,7 @@ fun mostExpensive(description: String): String {
     for (i in str.indices step 2) {
         val cost = str[i + 1].toDoubleOrNull()
         if (cost == null || cost < 0) return ""
-        if (str[i + 1].toDouble() >= counter) {
+        if (cost >= counter) {
             counter = cost
             name = str[i]
         }
