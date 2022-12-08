@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import lesson5.task1.containsIn
 import lesson7.task1.markdownToHtmlLists
 import ru.spbstu.wheels.repeatB
@@ -267,7 +268,19 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    val num = n
+    var ind = 1
+    var count = 0
+    while (count < num) {
+        val dn = digitNumber(sqr(ind))
+        count += dn
+        ind++
+    }
+    val answ = (sqr(ind - 1) / (10.0).pow(count - num) % 10).toInt()
+    return answ
+
+}
 
 /**
  * Сложная (5 баллов)
@@ -287,6 +300,6 @@ fun fibSequenceDigit(n: Int): Int {
         count += dn
         ind++
     }
-    val answ = (fib(ind -1)/(10.0).pow(count-num)%10).toInt()
+    val answ = (fib(ind - 1) / (10.0).pow(count - num) % 10).toInt()
     return answ
 }
