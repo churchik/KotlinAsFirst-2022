@@ -179,7 +179,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 out.newLine()
                 continue
             }
-            if (trimLine.length == max || trimLine.matches("""\S+""".toRegex())) {
+            if (trimLine.length == max || splitLineToWords.size == 1) {
                 out.write(trimLine)
                 out.newLine()
                 continue
