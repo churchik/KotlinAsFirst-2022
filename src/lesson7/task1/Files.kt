@@ -2,7 +2,6 @@
 
 package lesson7.task1
 
-import java.io.BufferedWriter
 import java.io.File
 
 // Урок 7: работа с файлами
@@ -83,21 +82,17 @@ fun deleteMarked(inputName: String, outputName: String) {
 
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
-    val input = (File(inputName).readLines())
-    for (str in substrings) {
-        var count = 0
-        for (line in input) {
-            if (line.lowercase().contains(str.lowercase())) {
-                for (i in 0..line.length - str.length) {
-                    if (str.lowercase() == line.substring(i, i + str.length).lowercase()) count++
-                    continue
-                }
+    for (line in File(inputName).readLines()) {
+        for (str in substrings) {
+            if (!map.contains(str)) map[str] = 0
+            for (i in line.indices) {
+                if (line.lowercase().startsWith(str.lowercase(), i)) map[str] = map[str]!! + 1
             }
         }
-        map[str] = count
     }
     return map
 }
+
 
 /**
  * Средняя (12 баллов)
