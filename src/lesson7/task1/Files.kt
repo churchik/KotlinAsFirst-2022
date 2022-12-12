@@ -174,10 +174,7 @@ fun centerFile(inputName: String, outputName: String) {
  * 7) В самой длинной строке каждая пара соседних слов должна быть отделена В ТОЧНОСТИ одним пробелом
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
-fun BufferedWriter.writeLn(line: String) {
-    write(line)
-    newLine()
-}
+
 fun alignFileByWidth(inputName: String, outputName: String) {
     val input = File(inputName).readLines()
     File(outputName).bufferedWriter().use { out ->
@@ -213,7 +210,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         }
     }
 }
-
 
 /**
  * Средняя (14 баллов)
