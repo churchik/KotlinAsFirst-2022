@@ -196,7 +196,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             for (i in 0 until splitLineToWords.size - 1) {
                 if (!trimLine.contains("  "))
                     splitLineToWords[i] += " ".repeat(if (i < check) last + 1 else last)
-                else splitLineToWords[i] += " ".repeat(if (i <= check + 2) last + 1 else last)
+                else splitLineToWords[i] += " ".repeat(if (i <= check + 1) last + 1 else last)
             }
             out.write(splitLineToWords.joinToString(""))
             out.newLine()
