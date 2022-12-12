@@ -169,7 +169,6 @@ fun centerFile(inputName: String, outputName: String) {
  * 7) В самой длинной строке каждая пара соседних слов должна быть отделена В ТОЧНОСТИ одним пробелом
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
-
 fun alignFileByWidth(inputName: String, outputName: String) {
     val input = File(inputName).readLines()
     File(outputName).bufferedWriter().use { out ->
@@ -178,9 +177,9 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             return
         }
         val max = input.maxOf { it.trim().length }
-        for (line in input) {
+        for (line in input.map { it.replace("""\s+""".toRegex(), " ") }) {
             val trimLine = line.trim()
-            val splitLineToWords = trimLine.split("""\s+""".toRegex()).toMutableList()
+            val splitLineToWords = trimLine.split("""\s""".toRegex()).toMutableList()
             if (trimLine.isBlank()) {
                 out.newLine()
                 continue
@@ -190,14 +189,11 @@ fun alignFileByWidth(inputName: String, outputName: String) {
                 out.newLine()
                 continue
             }
-            val size = trimLine.length
             val last = (max - trimLine.length) / (splitLineToWords.size - 1) + 1
             val check = (max - trimLine.length) % (splitLineToWords.size - 1)
             if (trimLine.isNotEmpty()) {
                 for (i in 0 until splitLineToWords.size - 1) {
-                    if (trimLine.contains("  "))
-                        splitLineToWords[i] += " ".repeat(if (i <= check + max - splitLineToWords.joinToString("").length) last + 1 else last)
-                    else splitLineToWords[i] += " ".repeat(if (i < check) last + 1 else last)
+                    splitLineToWords[i] += " ".repeat(if (i < check) last + 1 else last)
                 }
                 out.write(splitLineToWords.joinToString(""))
                 out.newLine()
@@ -205,7 +201,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         }
     }
 }
-
 /**
  * Средняя (14 баллов)
  *
