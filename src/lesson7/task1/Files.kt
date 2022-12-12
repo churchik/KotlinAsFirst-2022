@@ -177,9 +177,9 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             return
         }
         val max = input.maxOf { it.trim().length }
-        for (line in input.map { it.replace("""\s+""".toRegex(), " ") }) {
-            val trimLine = line.trim()
-            val splitLineToWords = trimLine.split("""\s""".toRegex()).toMutableList()
+        for (line in input) {
+            val splitLineToWords = line.trim().split("""\s+""".toRegex()).toMutableList()
+            val trimLine = splitLineToWords.joinToString(" ")
             if (trimLine.isBlank()) {
                 out.newLine()
                 continue
