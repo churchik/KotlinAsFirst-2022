@@ -93,12 +93,24 @@ class Polynom(private vararg val coeffs: Double) {
      *
      * Если A / B = C и A % B = D, то A = B * C + D и степень D меньше степени B
      */
-    operator fun div(other: Polynom): Polynom = TODO()
+    operator fun div(other: Polynom): Polynom {
+        val next = other.degree()
+        val minus = DoubleArray(next + 1)
+        val answ = mutableListOf<Double>()
+        if (this.degree() < next) return Polynom(0.0)
+        for (j in 0..(this.degree() - next)) {
+            val pointed = coeffs[j] / other.coeff(next)
+            for (i in minus.indices) minus[i] = other.coeffs[next - i] * pointed
+            for (i in 0..next) coeffs[i + j] -= minus[i]
+            answ.add(pointed)
+        }
+        return Polynom(*answ.toDoubleArray())
+    }
 
     /**
      * Взятие остатка
      */
-    operator fun rem(other: Polynom): Polynom = TODO()
+    operator fun rem(other: Polynom): Polynom = this - (other * (this / other))
 
     /**
      * Сравнение на равенство
