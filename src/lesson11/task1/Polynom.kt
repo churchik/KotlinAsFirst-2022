@@ -2,6 +2,9 @@
 
 package lesson11.task1
 
+import java.util.NoSuchElementException
+import kotlin.math.pow
+
 /**
  * Класс "полином с вещественными коэффициентами".
  *
@@ -19,17 +22,22 @@ package lesson11.task1
  * Нули в середине и в конце пропускаться не должны, например: x^3+2x+1 --> Polynom(1.0, 2.0, 0.0, 1.0)
  * Старшие коэффициенты, равные нулю, игнорировать, например Polynom(0.0, 0.0, 5.0, 3.0) соответствует 5x+3
  */
-class Polynom(vararg coeffs: Double) {
+class Polynom(private vararg val coeffs: Double) {
+    private val nc = coeffs.reversed().takeWhile { it != 0.0 }.toDoubleArray()
 
     /**
      * Геттер: вернуть значение коэффициента при x^i
      */
-    fun coeff(i: Int): Double = TODO()
+    fun coeff(i: Int): Double = nc.getOrNull(i) ?: throw NoSuchElementException()
 
     /**
      * Расчёт значения при заданном x
      */
-    fun getValue(x: Double): Double = TODO()
+    fun getValue(x: Double): Double {
+        var value = 0.0
+        for (index in nc.indices) value += nc[index] * x.pow(index)
+        return value
+    }
 
     /**
      * Степень (максимальная степень x при ненулевом слагаемом, например 2 для x^2+x+1).
@@ -38,27 +46,44 @@ class Polynom(vararg coeffs: Double) {
      * Слагаемые с нулевыми коэффициентами игнорировать, т.е.
      * степень 0x^2+0x+2 также равна 0.
      */
-    fun degree(): Int = TODO()
+    fun degree(): Int = if (nc.isNotEmpty()) nc.size - 1 else 0
 
     /**
      * Сложение
      */
-    operator fun plus(other: Polynom): Polynom = TODO()
+    operator fun plus(other: Polynom): Polynom {
+        val nc2 = nc.toMutableList()
+        for (order in other.nc.indices) if (order < nc2.size) nc2[order] += other.nc[order]
+        else nc2.add(other.nc[order])
+        return Polynom(*nc2.reversed().toDoubleArray())
+    }
+
 
     /**
      * Смена знака (при всех слагаемых)
      */
-    operator fun unaryMinus(): Polynom = TODO()
+    operator fun unaryMinus(): Polynom = Polynom(*nc.map { it * -1 }.reversed().toDoubleArray())
+
 
     /**
      * Вычитание
      */
-    operator fun minus(other: Polynom): Polynom = TODO()
+    operator fun minus(other: Polynom): Polynom = this + (-other)
 
     /**
      * Умножение
      */
-    operator fun times(other: Polynom): Polynom = TODO()
+    operator fun times(other: Polynom): Polynom {
+        val map = mutableMapOf<Int, Double>()
+        for (now in nc.indices) {
+            for (next in other.nc.indices) {
+                if (map.keys.contains(now + next)) map[now + next] =
+                    nc[now] * other.nc[next] + map[now + next]!!
+                else map[now + next] = nc[now] * other.nc[next]
+            }
+        }
+        return Polynom(*map.values.reversed().toDoubleArray())
+    }
 
     /**
      * Деление
@@ -78,10 +103,10 @@ class Polynom(vararg coeffs: Double) {
     /**
      * Сравнение на равенство
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean = other is Polynom && other.nc.contentEquals(nc)
 
     /**
      * Получение хеш-кода
      */
-    override fun hashCode(): Int = TODO()
+    override fun hashCode(): Int = nc.contentHashCode()
 }
